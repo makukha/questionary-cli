@@ -167,8 +167,9 @@ seed:
 # Bump project version.
 version-bump:
 	@uv run bump-my-version show-bump
-	@printf 'Choose version component: '; read V; printf $$V > .tmp/.bump
-	uv run bump-my-version bump --tag `cat .tmp/.bump`
+	@uv run que --plain --file .tmp/.bump \
+	  select -p'Choose version component:' --as component -c'["major","minor","patch"]'
+	uv run bump-my-version bump --tag `cat .tmp/.bump | cut -d'=' -f2`
 	@rm .tmp/.bump
 	uv lock
 

@@ -389,7 +389,7 @@ def process(ctx: Context, *args: Any, **kwargs: Any) -> None:
         if ctx.output is OutputType.JSON:
             f.write(json.dumps(answers))
         elif ctx.output is OutputType.PLAIN:
-            f.write('\n'.join(f'{k}={v}' for k, v in ctx.questions.items()))
+            f.write('\n'.join(f'{k}={v}' for k, v in answers.items()))
 
 
 # Helpers

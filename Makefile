@@ -49,7 +49,7 @@ update-dependencies:
 # Update project template.
 update-template:
 	uvx copier update --trust --vcs-ref main
-	uv run que confirm -p'Are all merge conflicts resolved?' -dfalse
+	uv run que continue -p'Resolve merge conflicts and press any key to continue...'
 	make build
 
 # TODO: Manage

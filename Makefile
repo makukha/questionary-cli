@@ -49,7 +49,7 @@ update-dependencies:
 # Update project template.
 update-template:
 	uvx copier update --trust --vcs-ref main
-	# todo: add interactive step to merge
+	uv run que confirm -p'Are all merge conflicts resolved?' -dfalse
 	make build
 
 # TODO: Manage

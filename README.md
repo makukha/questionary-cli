@@ -158,7 +158,7 @@ Confirmation prompt.
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────╮
 │ *  --prompt       -p  TEXT  Prompt text to be displayed. [required]              │
-│ *  --key,--as     -k  TEXT  Question key to be used in output. [required]        │
+│    --key,--as     -k  TEXT  Question key to be used in output.                   │
 │    --default      -d        Default value if no text is entered.                 │
 │                             [default: False]                                     │
 │    --instruction  -i  TEXT  Instruction displayed to the user. [default: ""]     │

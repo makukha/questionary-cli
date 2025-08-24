@@ -249,7 +249,7 @@ def confirm(
     ctx.questions[key] = q.confirm(
         message=prompt,
         default=default,
-        instruction=f'{instruction or ("Y/n" if default else "y/N")}: ',
+        instruction=f'{instruction or ("(Y/n)" if default else "(y/N)")}: ',
         auto_enter=auto_enter,
     )
 

@@ -1,0 +1,14 @@
+pre-commit:
+  parallel: false
+  jobs:
+    - name: lint
+      group:
+        parallel: true
+        jobs:
+          - run: uv run mypy .
+          - run: uv run ruff check
+          - run: uv run ruff format --diff
+    - name: test
+      run: make test
+    - name: docs
+      run: make badges docs

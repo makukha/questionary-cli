@@ -359,17 +359,27 @@ def print(
     ctx.questions[object()] = PrintQuestionAdapter(text=text)  # type: ignore
 
 
-@command(name='continue')
+@command()
 @option_prompt(default='Press any key to continue...')
+@click.option(
+    '-a',
+    '--append',
+    is_flag=True,
+    default=False,
+    help='When option is set, append " press any key to continue..." to the prompt.',
+)
 @pass_context
-def continue_(
+def wait(
     ctx: Context,
     prompt: str,
+    append: bool,
 ) -> None:
     """
     Wait until any key is pressed.
     """
-    q.press_any_key_to_continue(message=prompt).ask()
+    q.press_any_key_to_continue(
+        message=prompt + (' press any key to continue...' if append else '')
+    ).ask()
 
 
 @cli.result_callback()

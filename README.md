@@ -69,13 +69,13 @@ Command line utility for questionary.
 │ autocomplete             Autocomplete text prompt.                               │
 │ checkbox                 Multi-select checkbox prompt.                           │
 │ confirm                  Confirmation prompt.                                    │
-│ continue                 Wait until any key is pressed.                          │
 │ password                 Password prompt.                                        │
 │ path                     Filesystem path prompt.                                 │
 │ print                    Print formatted text.                                   │
 │ rawselect                Raw select option prompt.                               │
 │ select                   Select option prompt.                                   │
 │ text                     Text prompt.                                            │
+│ wait                     Wait until any key is pressed.                          │
 ╰──────────────────────────────────────────────────────────────────────────────────╯
 ```
 <!-- docsub: end -->
@@ -254,12 +254,12 @@ Autocomplete text prompt.
 ## Press Any Key To Continue...
 
 <!-- docsub: begin -->
-<!-- docsub: help que continue -->
+<!-- docsub: help que wait -->
 <!-- docsub: lines after 2 upto -1 -->
 <!-- docsub: strip -->
 ```shell
-$ que continue --help
-Usage: que continue [OPTIONS]
+$ que wait --help
+Usage: que wait [OPTIONS]
 
 Wait until any key is pressed.
 
@@ -267,6 +267,8 @@ Wait until any key is pressed.
 │ *  --prompt  -p  TEXT  Prompt text to be displayed.                              │
 │                        [default: Press any key to continue...]                   │
 │                        [required]                                                │
+│    --append  -a        When option is set, append " press any key to             │
+│                        continue..." to the prompt.                               │
 │    --help              Show this message and exit.                               │
 ╰──────────────────────────────────────────────────────────────────────────────────╯
 ```

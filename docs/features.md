@@ -1,0 +1,4 @@
+- Command line utility for [questionary](https://questionary.readthedocs.io)
+- All question types and prompts supported
+- Output as JSON or plain text 
+- Chain multiple questions

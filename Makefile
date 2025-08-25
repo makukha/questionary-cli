@@ -186,7 +186,7 @@ github-pullrequest:
 	git push
 	@export ISSUE_ID=`git branch --show-current | cut -d- -f1` && \
 	export ISSUE_TITLE=`GH_PAGER=cat gh issue view "$$ISSUE_ID" --json title -t '{{.title}}'` && \
-	  gh pr create --draft --web -t "$$ISSUE_TITLE"
+	  gh pr create --web -t "$$ISSUE_TITLE"
 
 .PHONY: github-release
 github-release:

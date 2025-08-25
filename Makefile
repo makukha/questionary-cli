@@ -49,46 +49,8 @@ update-dependencies:
 # Update project template.
 update-template:
 	uvx copier update --trust --vcs-ref main
-	uv run que continue -p'Resolve merge conflicts and press any key to continue...'
+	uv run que wait -p'Resolve merge conflicts and' -a
 	make build
-
-# TODO: Manage
-
-## run pre-merge
-#[group('2-manage')]
-#pre-merge:
-#    just lint
-#    just test
-#    make docs sources
-#
-## merge
-#[group('2-manage')]
-#merge:
-#    just pre-merge
-#    @echo "Manually>>> Merge pull request ..."
-#    just gh::pr-create
-#    @printf "Done? " && read _
-#    git switch main
-#    git fetch
-#    git pull
-#
-## release
-#[group('2-manage')]
-#release:
-#    just version-bump
-#    just pre-merge
-#    just changelog-collect
-#    make sources
-#    @echo "Manually>>> Proofread the changelog and commit changes ..."
-#    @printf "Done? " && read _
-#    git tag "v$(uv run bump-my-version show current_version)"
-#    git push --tags
-#    just merge
-#    just gh::repo-update
-#    @echo "Manually>>> Update GitHub release notes and publish release ..."
-#    just gh::release-create "v$(uv run bump-my-version show current_version)"
-#    @printf "Done? " && read _
-#    just pypi-publish
 
 
 # Develop
@@ -183,6 +145,34 @@ changelog:
 # Publish package on PyPI.
 publish: package
 	hatch publish .tmp/dist/*.*
+
+.PHONY: merge
+# Merge current branch to "main"
+merge:
+	make pre-commit
+	make github-pullrequest
+	uv run que wait -p'Manually merge PR created and' -a
+	git switch main
+	git fetch
+	git pull
+
+.PHONY: release
+# Process release branch
+release:
+	# update version and changelog
+	make version-bump
+	make changelog
+	uv run que wait -p'Proofread the changelog and ' -a
+	make pre-commit
+	uv run que wait -p'Proofread changes and commit, then' -a
+	# tag
+	git tag "v$(uv run bump-my-version show current_version)"
+	git push --tags
+	# merge
+	make merge
+	make github-metadata
+	make github-release
+	make publish
 
 
 # GitHub helpers

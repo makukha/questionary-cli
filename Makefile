@@ -149,6 +149,7 @@ publish: package
 .PHONY: merge
 # Merge current branch to "main"
 merge:
+	make build
 	make pre-commit
 	make github-pullrequest
 	uv run que wait -p'Manually merge PR created and' -a
@@ -163,8 +164,9 @@ release:
 	make version-bump
 	make changelog
 	uv run que wait -p'Proofread the changelog and' -a
-	make pre-commit
+	make build
 	uv run que wait -p'Proofread changes and commit, then' -a
+	make pre-commit
 	# tag
 	git tag "v`uv run bump-my-version show current_version`"
 	git push --tags

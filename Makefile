@@ -162,7 +162,7 @@ release:
 	# update version and changelog
 	make version-bump
 	make changelog
-	uv run que wait -p'Proofread the changelog and ' -a
+	uv run que wait -p'Proofread the changelog and' -a
 	make pre-commit
 	uv run que wait -p'Proofread changes and commit, then' -a
 	# tag

@@ -166,7 +166,7 @@ release:
 	make pre-commit
 	uv run que wait -p'Proofread changes and commit, then' -a
 	# tag
-	git tag "v$(uv run bump-my-version show current_version)"
+	git tag "v`uv run bump-my-version show current_version`"
 	git push --tags
 	# merge
 	make merge

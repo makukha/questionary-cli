@@ -125,14 +125,14 @@ def option_instruction(**kwargs: Any) -> Callable[[F[P, R]], F[P, R]]:
     )
 
 
-def option_key(**kwargs) -> Callable[[F[P, R]], F[P, R]]:
+def option_key(**kwargs: Any) -> Callable[[F[P, R]], F[P, R]]:
     return lambda f: wraps(f)(
         click.option(
             '-k',
             '--key',
             '--as',
             help='Question key to be used in output.',
-            **(dict(required=True,) | kwargs),
+            **(dict(required=True) | kwargs),
         )(f)
     )
 

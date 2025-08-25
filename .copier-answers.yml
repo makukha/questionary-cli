@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: a827633
+_commit: 3e32036
 _src_path: gh:makukha/copython
 author_email: m.makukha@gmail.com
 author_name: Michael Makukha
@@ -14,7 +14,7 @@ project_extras: ''
 project_name: questionary-cli
 project_script: true
 project_script_name: que
-project_version: 0.0.0
+project_version: 0.1.0
 pypi_package_name: questionary-cli
 pypi_url: https://pypi.org/project/questionary-cli
 python_version: 3.13.6

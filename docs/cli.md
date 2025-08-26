@@ -112,6 +112,7 @@ Confirmation prompt.
 │                             [default: False]                                     │
 │    --instruction  -i  TEXT  Instruction displayed to the user. [default: ""]     │
 │    --auto-enter   -a        No need to press Enter after "y" or "n" is pressed.  │
+│    --exit-code    -e        Exit with code 1 "n" is entered.                     │
 │    --help                   Show this message and exit.                          │
 ╰──────────────────────────────────────────────────────────────────────────────────╯
 ```

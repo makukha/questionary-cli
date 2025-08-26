@@ -1,5 +1,6 @@
 import json
-from dataclasses import dataclass
+import sys
+from dataclasses import dataclass, field
 from enum import Enum, auto
 from functools import wraps
 from pathlib import Path
@@ -13,6 +14,7 @@ from typing_extensions import ParamSpec, TextIO, TypeAlias, TypeVar
 P = ParamSpec('P')
 R = TypeVar('R')
 F: TypeAlias = Callable[P, R]
+Key: TypeAlias = str | object
 
 
 class OutputType(str, Enum):
@@ -20,11 +22,12 @@ class OutputType(str, Enum):
     PLAIN = auto()
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Context:
-    questions: dict[str | object, q.Question]
+    questions: dict[Key, q.Question] = field(default_factory=dict)
     output: OutputType | None
     file: str | TextIO
+    confirm_exit_nonzero: set[Key] = field(default_factory=set)
 
 
 # Group
@@ -69,7 +72,6 @@ def cli(
         output = None
 
     ctx.obj = Context(
-        questions={},
         output=output,
         file=stdout if file is None else file,
     )
@@ -233,25 +235,36 @@ def path(
     default=False,
     help='No need to press Enter after "y" or "n" is pressed.',
 )
+@click.option(
+    '-e',
+    '--exit-code',
+    is_flag=True,
+    default=False,
+    help='Exit with code 1 "n" is entered.',
+)
 @pass_context
 def confirm(
     ctx: Context,
     prompt: str,
-    key: str,
+    key: str | None,
     default: bool,
     instruction: str,
     auto_enter: bool,
+    exit_code: bool,
 ) -> None:
     """
     Confirmation prompt.
     """
-    assert_unique_key(key, ctx)
-    ctx.questions[key] = q.confirm(
+    k = object() if key is None else object()
+    assert_unique_key(k, ctx)
+    ctx.questions[k] = q.confirm(
         message=prompt,
         default=default,
         instruction=f'{instruction or ("(Y/n)" if default else "(y/N)")}: ',
         auto_enter=auto_enter,
     )
+    if exit_code:
+        ctx.confirm_exit_nonzero.add(k)
 
 
 @command()
@@ -386,8 +399,15 @@ def wait(
 @pass_context
 def process(ctx: Context, *args: Any, **kwargs: Any) -> None:
     # process
-    answers = {k: q.ask() for k, q in ctx.questions.items()}
-    answers = {k: v for k, v in answers.items() if isinstance(k, str)}  # drop non-keys
+    answers = {}
+    exit_code = 0
+    for key, question in ctx.questions.items():
+        answers[key] = question.ask()
+        if key in ctx.confirm_exit_nonzero and answers[key] is False:
+            exit_code = 1
+            break
+    # drop non-keys
+    answers = {k: v for k, v in answers.items() if isinstance(k, str)}
     # output
     if isinstance(ctx.file, str):
         fp = Path(ctx.file)
@@ -400,6 +420,8 @@ def process(ctx: Context, *args: Any, **kwargs: Any) -> None:
             f.write(json.dumps(answers))
         elif ctx.output is OutputType.PLAIN:
             f.write('\n'.join(f'{k}={v}' for k, v in answers.items()))
+    # exit
+    sys.exit(exit_code)
 
 
 # Helpers
@@ -416,12 +438,12 @@ class PrintQuestionAdapter:
         q.print(text=self.text)
 
 
-def process_help(arg: str) -> None:
+def process_help(arg: object) -> None:
     if arg in ('--help', '-h'):
         raise Usage
 
 
-def assert_unique_key(key: str, ctx: Context) -> None:
+def assert_unique_key(key: Key, ctx: Context) -> None:
     process_help(key)
     if key in ctx.questions:
         raise click.UsageError(f'Question key "{key}" is already used.')

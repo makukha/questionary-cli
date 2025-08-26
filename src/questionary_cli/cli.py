@@ -14,6 +14,7 @@ from typing_extensions import ParamSpec, TextIO, TypeAlias, TypeVar
 P = ParamSpec('P')
 R = TypeVar('R')
 F: TypeAlias = Callable[P, R]
+Key: TypeAlias = str | object
 
 
 class OutputType(str, Enum):
@@ -23,10 +24,10 @@ class OutputType(str, Enum):
 
 @dataclass(kw_only=True)
 class Context:
-    questions: dict[str | object, q.Question] = field(default_factory=dict)
+    questions: dict[Key, q.Question] = field(default_factory=dict)
     output: OutputType | None
     file: str | TextIO
-    confirm_exit_nonzero: set[str] = field(default_factory=set)
+    confirm_exit_nonzero: set[Key] = field(default_factory=set)
 
 
 # Group
@@ -254,17 +255,16 @@ def confirm(
     """
     Confirmation prompt.
     """
-    if key is None:
-        key = object()
-    assert_unique_key(key, ctx)
-    ctx.questions[key] = q.confirm(
+    k = object() if key is None else object()
+    assert_unique_key(k, ctx)
+    ctx.questions[k] = q.confirm(
         message=prompt,
         default=default,
         instruction=f'{instruction or ("(Y/n)" if default else "(y/N)")}: ',
         auto_enter=auto_enter,
     )
     if exit_code:
-        ctx.confirm_exit_nonzero.add(key)
+        ctx.confirm_exit_nonzero.add(k)
 
 
 @command()
@@ -438,12 +438,12 @@ class PrintQuestionAdapter:
         q.print(text=self.text)
 
 
-def process_help(arg: str) -> None:
+def process_help(arg: object) -> None:
     if arg in ('--help', '-h'):
         raise Usage
 
 
-def assert_unique_key(key: str, ctx: Context) -> None:
+def assert_unique_key(key: Key, ctx: Context) -> None:
     process_help(key)
     if key in ctx.questions:
         raise click.UsageError(f'Question key "{key}" is already used.')

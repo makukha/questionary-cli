@@ -162,14 +162,12 @@ merge:
 release:
 	# update version and changelog
 	make version-bump
+	git push --tags
 	make changelog
 	uv run que wait -p'Proofread the changelog and' -a
 	make build
 	uv run que wait -p'Proofread changes and commit, then' -a
 	make pre-commit
-	# tag
-	git tag "v`uv run bump-my-version show current_version`"
-	git push --tags
 	# merge
 	make merge
 	make github-metadata

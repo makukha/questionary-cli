@@ -14,7 +14,7 @@ project_extras: ''
 project_name: questionary-cli
 project_script: true
 project_script_name: que
-project_version: 0.1.0
+project_version: 0.1.1
 pypi_package_name: questionary-cli
 pypi_url: https://pypi.org/project/questionary-cli
 python_version: 3.13.6

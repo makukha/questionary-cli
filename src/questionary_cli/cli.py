@@ -1,5 +1,6 @@
 import json
-from dataclasses import dataclass
+import sys
+from dataclasses import dataclass, field
 from enum import Enum, auto
 from functools import wraps
 from pathlib import Path
@@ -20,11 +21,12 @@ class OutputType(str, Enum):
     PLAIN = auto()
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Context:
-    questions: dict[str | object, q.Question]
+    questions: dict[str | object, q.Question] = field(default_factory=dict)
     output: OutputType | None
     file: str | TextIO
+    confirm_exit_nonzero: set[str] = field(default_factory=set)
 
 
 # Group
@@ -69,7 +71,6 @@ def cli(
         output = None
 
     ctx.obj = Context(
-        questions={},
         output=output,
         file=stdout if file is None else file,
     )
@@ -233,18 +234,28 @@ def path(
     default=False,
     help='No need to press Enter after "y" or "n" is pressed.',
 )
+@click.option(
+    '-e',
+    '--exit-code',
+    is_flag=True,
+    default=False,
+    help='Exit with code 1 "n" is entered.',
+)
 @pass_context
 def confirm(
     ctx: Context,
     prompt: str,
-    key: str,
+    key: str | None,
     default: bool,
     instruction: str,
     auto_enter: bool,
+    exit_code: bool,
 ) -> None:
     """
     Confirmation prompt.
     """
+    if key is None:
+        key = object()
     assert_unique_key(key, ctx)
     ctx.questions[key] = q.confirm(
         message=prompt,
@@ -252,6 +263,8 @@ def confirm(
         instruction=f'{instruction or ("(Y/n)" if default else "(y/N)")}: ',
         auto_enter=auto_enter,
     )
+    if exit_code:
+        ctx.confirm_exit_nonzero.add(key)
 
 
 @command()
@@ -386,8 +399,15 @@ def wait(
 @pass_context
 def process(ctx: Context, *args: Any, **kwargs: Any) -> None:
     # process
-    answers = {k: q.ask() for k, q in ctx.questions.items()}
-    answers = {k: v for k, v in answers.items() if isinstance(k, str)}  # drop non-keys
+    answers = {}
+    exit_code = 0
+    for key, question in ctx.questions.items():
+        answers[key] = question.ask()
+        if key in ctx.confirm_exit_nonzero and answers[key] is False:
+            exit_code = 1
+            break
+    # drop non-keys
+    answers = {k: v for k, v in answers.items() if isinstance(k, str)}
     # output
     if isinstance(ctx.file, str):
         fp = Path(ctx.file)
@@ -400,6 +420,8 @@ def process(ctx: Context, *args: Any, **kwargs: Any) -> None:
             f.write(json.dumps(answers))
         elif ctx.output is OutputType.PLAIN:
             f.write('\n'.join(f'{k}={v}' for k, v in answers.items()))
+    # exit
+    sys.exit(exit_code)
 
 
 # Helpers

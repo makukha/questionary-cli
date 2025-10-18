@@ -874,6 +874,7 @@ source = { editable = "." }
 dependencies = [
     { name = "questionary" },
     { name = "rich-click" },
+    { name = "typing-extensions" },
 ]
 
 [package.dev-dependencies]
@@ -898,6 +899,7 @@ testing = [
 requires-dist = [
     { name = "questionary", specifier = ">=2" },
     { name = "rich-click", specifier = ">=1.8" },
+    { name = "typing-extensions", specifier = ">=4" },
 ]
 
 [package.metadata.requires-dev]

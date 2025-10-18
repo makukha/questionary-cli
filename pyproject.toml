@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "questionary-cli"
-description = "Command line tool for questionary"
+description = "Command line tool for questionary."
 authors = [
   {name = "Michael Makukha", email = "m.makukha@gmail.com"},
 ]
@@ -42,6 +42,7 @@ requires-python = ">=3.10"
 dependencies = [
   "questionary>=2",
   "rich-click>=1.8",
+  "typing-extensions>=4",
 ]
 
 [dependency-groups]
@@ -69,7 +70,7 @@ que = "questionary_cli.cli:cli"
 
 [tool.bumpversion]
 allow_dirty = true
-current_version = "0.1.1"
+current_version = "0.1.2"
 files = [
   {filename = ".copier-answers.yml"},
   {filename = "docs/badges.md"},

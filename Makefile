@@ -21,6 +21,7 @@ init:
 	@command -v podman || command -v docker || echo 'Command "podman" not found, see https://podman.io'
 	@command -v uv || echo 'Command "uv" not found, see https://docs.astral.sh/uv'
 	@command -v yq || echo 'Command "yq" not found, see https://github.com/mikefarah/yq'
+	uv tool install --with jinja2_shell_extension --with jinja2-time copier
 	make -B sync
 
 .PHONY: sync

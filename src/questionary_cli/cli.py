@@ -240,7 +240,7 @@ def path(
     '--exit-code',
     is_flag=True,
     default=False,
-    help='Exit with code 1 "n" is entered.',
+    help='Exit with code 1 if "n" is entered.',
 )
 @pass_context
 def confirm(

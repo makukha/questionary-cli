@@ -70,7 +70,7 @@ que = "questionary_cli.cli:cli"
 
 [tool.bumpversion]
 allow_dirty = true
-current_version = "0.1.1"
+current_version = "0.1.2"
 files = [
   {filename = ".copier-answers.yml"},
   {filename = "docs/badges.md"},

@@ -5,10 +5,10 @@
 <!-- docsub: begin -->
 <!-- docsub: include docs/badges.md -->
 [![license](https://img.shields.io/github/license/makukha/questionary-cli.svg)](https://github.com/makukha/questionary-cli/blob/main/LICENSE)
-[![pypi](https://img.shields.io/pypi/v/questionary-cli.svg#v0.1.1)](https://pypi.org/project/questionary-cli)
+[![pypi](https://img.shields.io/pypi/v/questionary-cli.svg#v0.1.2)](https://pypi.org/project/questionary-cli)
 [![python versions](https://img.shields.io/pypi/pyversions/questionary-cli.svg)](https://pypi.org/project/questionary-cli)
-[![tests](https://raw.githubusercontent.com/makukha/questionary-cli/v0.1.1/docs/img/badge/tests.svg)](https://github.com/makukha/questionary-cli)
-[![coverage](https://raw.githubusercontent.com/makukha/questionary-cli/v0.1.1/docs/img/badge/coverage.svg)](https://github.com/makukha/questionary-cli)
+[![tests](https://raw.githubusercontent.com/makukha/questionary-cli/v0.1.2/docs/img/badge/tests.svg)](https://github.com/makukha/questionary-cli)
+[![coverage](https://raw.githubusercontent.com/makukha/questionary-cli/v0.1.2/docs/img/badge/coverage.svg)](https://github.com/makukha/questionary-cli)
 [![tested with multipython](https://img.shields.io/badge/tested_with-multipython-x)](https://github.com/makukha/multipython)
 [![uses docsub](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/makukha/docsub/refs/heads/main/docs/badge/v1.json)](https://github.com/makukha/docsub)
 [![mypy](https://img.shields.io/badge/type_checked-mypy-%231674b1)](http://mypy.readthedocs.io)
@@ -161,7 +161,7 @@ Confirmation prompt.
 │                             [default: False]                                     │
 │    --instruction  -i  TEXT  Instruction displayed to the user. [default: ""]     │
 │    --auto-enter   -a        No need to press Enter after "y" or "n" is pressed.  │
-│    --exit-code    -e        Exit with code 1 "n" is entered.                     │
+│    --exit-code    -e        Exit with code 1 if "n" is entered.                  │
 │    --help                   Show this message and exit.                          │
 ╰──────────────────────────────────────────────────────────────────────────────────╯
 ```

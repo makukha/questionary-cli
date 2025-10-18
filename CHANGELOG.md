@@ -10,6 +10,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 <!-- scriv-insert-here -->
 
+<a id='changelog-0.1.2'></a>
+## [0.1.2](https://github.com/makukha/questionary-cli/releases/tag/v0.1.2) — 2025-10-18
+
+***Fixed***
+
+- Added missing `typing-extensions` dependency.
+
 <a id='changelog-0.1.1'></a>
 ## [0.1.1](https://github.com/makukha/questionary-cli/releases/tag/v0.1.1) — 2025-08-26
 

@@ -1,8 +1,6 @@
 # questionary-cli
-<!-- docsub: begin -->
-<!-- docsub: exec yq '"> " + .project.description' pyproject.toml -->
-> Command line tool for questionary
-<!-- docsub: end -->
+
+> Command line tool for questionary.
 
 <!-- docsub: begin -->
 <!-- docsub: include docs/badges.md -->

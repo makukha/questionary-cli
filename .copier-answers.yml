@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: efd3b1e
+_commit: 4644c95
 _src_path: gh:makukha/copython
 author_email: m.makukha@gmail.com
 author_name: Michael Makukha
@@ -10,6 +10,7 @@ github_slug: makukha/questionary-cli
 github_url: https://github.com/makukha/questionary-cli
 module_name: questionary_cli
 openssf_bp_id: ''
+project_description: Command line tool for questionary.
 project_extras: ''
 project_name: questionary-cli
 project_script: true
